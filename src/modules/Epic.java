@@ -2,6 +2,8 @@ package modules;
 
 import java.util.ArrayList;
 
+// Yellow
+// Было бы здорово переопределить equals и hashcode у этого класса
 public class Epic extends Task {
     private ArrayList<Subtask> subTasks = new ArrayList<>();
 
@@ -17,6 +19,8 @@ public class Epic extends Task {
     }
 
     public void removeSubtaskById( long id){
+        // RED
+        // Запрещено проходиться по коллекции и удалять в ней элементы одновременно
         for (int i = 0;i < subTasks.size();i++){
             if(subTasks.get(i).getId() == id){
                 subTasks.remove(i);
@@ -32,9 +36,13 @@ public class Epic extends Task {
         UpdateStatus();
     }
 
+    // RED
+    // Методы принято называть с маленькой буквы
     public void UpdateStatus(){
         for (Subtask subtask : subTasks) {
-
+            // RED
+            // Обновление эпика необходимо сделать более рационально
+            // без большого количества условных конструкций
             if (subtask.getStatus().equals("NEW") && status.equals("DONE")) {
                 status = "IN PROCESS";
             }

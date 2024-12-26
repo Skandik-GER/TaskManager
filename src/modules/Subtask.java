@@ -1,5 +1,8 @@
 package modules;
 
+
+// Yellow
+// Было бы здорово переопределить equals и hashcode у этого класса
 public class Subtask extends Task {
     private long epicId;
 

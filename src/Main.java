@@ -3,6 +3,9 @@ import modules.Subtask;
 import modules.Task;
 import modules.Epic;
 
+// RED
+// Лишние комментарии необходимо удалить и не засорять код
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
@@ -18,6 +21,8 @@ public class Main {
         Subtask subtask1 = new Subtask("Sit", "sit", 3, "DONE");
         Subtask subtask2 = new Subtask("JUdMP", "JUMP", 3, "DONE");
         Subtask subtask3 = new Subtask("211JUMP", "JUMP", 3, "DONE");
+        // Yellow
+        // переменные с маленькой буквы принято называть
         Subtask UPDsubtask4 = new Subtask(6, "jMP", "jhP", 3, "DONE");
         Manager manager = new Manager();
         Epic epic = new Epic("Sit", "sit");

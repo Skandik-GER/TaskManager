@@ -1,15 +1,19 @@
 package modules;
 
 
-// Yellow
+import java.util.Objects;
+
+// Yellow +-
 // Было бы здорово переопределить equals и hashcode у этого класса
 public class Subtask extends Task {
     private long epicId;
+
 
     public Subtask(String name, String describe,long epicId, String status) {
         super(name, describe,status);
         this.epicId = epicId;
     }
+
 
     public Subtask(long id,String name, String describe,long epicId, String status) {
         super(id,name, describe,status);
@@ -25,13 +29,27 @@ public class Subtask extends Task {
     }
 
     @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Subtask subtask = (Subtask) object;
+        return getEpicId() == subtask.getEpicId() && getName().equals(subtask.getName())
+                && getStatus().equals(subtask.getStatus()) && getId() == (subtask.getId()) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getEpicId());
+    }
+
+    @Override
     public String toString() {
         return "Subtask{" +
                 "epicId=" + epicId +
-                ", name='" + name + '\'' +
+                ", status='" + status + '\'' +
                 ", describe='" + describe + '\'' +
                 ", id=" + id +
-                ", status='" + status + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

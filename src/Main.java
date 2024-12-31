@@ -3,11 +3,11 @@ import modules.Subtask;
 import modules.Task;
 import modules.Epic;
 
-// RED
+// RED +
 // Лишние комментарии необходимо удалить и не засорять код
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
+
 public class Main {
     public static void main(String[] args) {
 
@@ -19,11 +19,14 @@ public class Main {
         Epic epic2 = new Epic("Backflip", "Jump with flip");
 
         Subtask subtask1 = new Subtask("Sit", "sit", 3, "DONE");
-        Subtask subtask2 = new Subtask("JUdMP", "JUMP", 3, "DONE");
+        Subtask subtask2 = new Subtask("JUdMP", "JUMP", 3, "NEW");
         Subtask subtask3 = new Subtask("211JUMP", "JUMP", 3, "DONE");
-        // Yellow
+        Subtask subtask4 = new Subtask("Sgdfgd", "sit", 4, "DONE");
+        Subtask subtask5 = new Subtask("JgfdgdfMP", "JUMP", 4, "NEW");
+        Subtask subtask6 = new Subtask("211JgdfgdfgdfP", "JUMP", 4, "DONE");
+        // Yellow+
         // переменные с маленькой буквы принято называть
-        Subtask UPDsubtask4 = new Subtask(6, "jMP", "jhP", 3, "DONE");
+        Subtask updSubtask4 = new Subtask(6, "jMP", "jhP", 3, "DONE");
         Manager manager = new Manager();
         Epic epic = new Epic("Sit", "sit");
         manager.createTask(task1);
@@ -34,15 +37,19 @@ public class Main {
 
         manager.createEpic(epic);
         manager.createEpic(epic1);
+        manager.createEpic(epic2);
         manager.createSubtask(subtask1);
         manager.createSubtask(subtask2);
         manager.createSubtask(subtask3);
+        manager.createSubtask(subtask4);
+        manager.createSubtask(subtask5);
+        manager.createSubtask(subtask6);
 
 
 
         System.out.println(epic.getStatus());
         System.out.println(manager.getSubtasks());
-        manager.updateSubtask(UPDsubtask4);
+        manager.updateSubtask(updSubtask4);
         System.out.println(epic.getStatus());
         System.out.println(manager.getSubtasks());
         System.out.println(epic.getStatus());
@@ -54,6 +61,13 @@ public class Main {
         System.out.println(manager.getTasks());
         manager.getEpicById(epic1.getId());
         System.out.println(manager.getEpics());
+
+        System.out.println("----------------------------");
+
+        manager.updateEpic(epic);
+        System.out.println(manager.getEpics());
+
+        System.out.println("----------------------------");
 
 
 

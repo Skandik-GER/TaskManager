@@ -7,9 +7,9 @@ import modules.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
-// RED+
-// Отсутствует метод по получению всех сабтасков определенного эпика
+// RED
+// Правила чекстайла не соблюдены
+// Не хватает пробелов, лишние отступы
 public class Manager {
     private HashMap<Long,Task> taskmap = new HashMap<>();
     private HashMap<Long, Subtask> subtaskmap= new HashMap<>();
@@ -21,12 +21,13 @@ public class Manager {
         taskmap.put(nextId,task);
         nextId++;
     }
+
+    // RED
+    // Лишний пустой метод, который ничего не делает
     public void getSubtask(){
 
     }
 
-    // GREEN
-    // Молодец! Метод добавления сабтаска реализован корректно с учетом сущестовавания эпика
     public void createSubtask(Subtask subtask){
 
         long epicID = subtask.getEpicId();
@@ -66,7 +67,15 @@ public class Manager {
     }
 
     public ArrayList<Subtask> getSubtasksByEpic(long epicId){
+        // RED
+        // Переменные принято называть с маленькой буквы
         ArrayList<Subtask> SubtasksById = new ArrayList<>();
+        // RED
+        // Не очень понятно как здесь возвращаются сабтаски эпика
+        // Конкретно в этой реализации находятся сабтаски, у которых айди совпадает с айди эпика
+        // Необходимо было сравнивать epicId сабтаска с айди эпика
+        // Либо же есть другой более оптимальный вариант:
+        // получить эпик по айди и вернуть все его сабтаски, которые хранятся внутри него
         for(Subtask subtasks : subtaskmap.values()){
             if(subtasks.getId() == epicId ){
                 SubtasksById.add(subtasks);
@@ -75,8 +84,6 @@ public class Manager {
         return SubtasksById;
     }
 
-    // Yellow+
-    // При удалении желательно проверять есть ли вообще такая задача в мапе
     public void removeTaskId(long id){
         if(taskmap.containsKey(id)){
             taskmap.remove(id);
@@ -85,20 +92,14 @@ public class Manager {
         }
     }
 
-    // RED+
-    // Если мы удаляем эпики,
-    // то мы обязаны удалить и все сабтаски
     public void removeAllEpic(){
         epicmap.clear();
         subtaskmap.clear();
     }
 
-    // Yellow+
-    // При удалении желательно проверять есть ли вообще такая задача в мапе
-
-    // RED+
-    // Если мы удаляем эпик,
-    // то мы обязаны удалить и все сабтаски, которые к нему относятся
+    // RED
+    // Эпик не удаляется
+    // Так же не удаляются все его сабтаски
     public void removeEpicId(long id){
         if(epicmap.containsKey(id)){
 
@@ -106,21 +107,18 @@ public class Manager {
     }
 
     public void removeAllSubtask(){
-        // RED+
-        // Так же необходимо всем эпикам теперь присвоить NEW
         for(Epic epic : epicmap.values()){
             epic.removeSubtasksAll();
+            // RED
+            // Излишне чистить мапу в цикле много раз
             subtaskmap.clear();
         }
     }
 
-    // Yellow+
-    // При удалении желательно проверять есть ли вообще такая задача в мапе
-
-    // RED+
-    // Кроме мапы ссылки на сабтаски хранятся в их эпиках
-    // Оттуда их необходимо тоже удалить
-    // и пересчитать статус эпика с учетом удаленного сабтаска
+    // RED
+    // Неэффективно искать в цикле и перебирать все эпики
+    // Мы можем получить нужный эпик по полю epicId в сабтаске
+    // + излишне в цикле много раз удалять сабтаску и общего хранилища
     public void removeSubtaskId(long id){
         for(Epic epic : epicmap.values()){
             epic.removeSubtaskById(id);
@@ -132,8 +130,6 @@ public class Manager {
         return taskmap.get(id);
     }
 
-    // Yellow NO!
-    // Было бы здорово сгруппировать отдельно в классе методы по удалению, добавлению и обновлению.
     public Subtask getSubtaskById(long id){
         return subtaskmap.get(id);
     }
@@ -143,21 +139,15 @@ public class Manager {
     }
 
     public void updateTask(Task task){
-        // Yellow+
-        // Необязательно удалять старую пару,
-        // тк она и так заменится засчет put
         taskmap.put(task.getId(),task);
     }
 
+    // RED
+    // Необходимо сабтаски старого эпика оставлять
+    // Здесь получается, что старые сабтаски теряются и ни к какому эпику не относятся после обновления
+    // Потому что при обновлении приходит эпик с пустым списком
 
-// Yellow+
-// Необязательно удалять старую пару,
-// тк она и так заменится засчет put    epic 2 na epic 3
-// RED+
-// Необходимо сабтаски старого эпика оставлять
-// Здесь получается, что старые сабтаски теряются и ни к какому эпику не относятся после обновления
-// Потому что при обновлении приходит эпик с пустым списком
-
+    // Замечание все еще актуально, старые сабтаски не сохраняются в новый эпик
     public void updateEpic(Epic newEpic){
         Epic oldEpic = epicmap.get(newEpic.getId());
         HashMap<Long, Subtask> subtasks = oldEpic.getSubTask();

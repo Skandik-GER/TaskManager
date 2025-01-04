@@ -1,7 +1,5 @@
 package modules;
 
-// Yellow
-// Было бы здорово переопределить equals и hashcode у этого класса
 public class Task {
     protected String name;
     protected String describe;
@@ -19,9 +17,6 @@ public class Task {
         this(name,describe,status);
         this.id = id;
     }
-
-    // GREEN
-    // Очень здорово, что реализованы сеттеры и геттеры для полей
 
     public String getName() {
         return name;

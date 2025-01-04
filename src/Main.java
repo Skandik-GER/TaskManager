@@ -3,11 +3,6 @@ import modules.Subtask;
 import modules.Task;
 import modules.Epic;
 
-// RED +
-// Лишние комментарии необходимо удалить и не засорять код
-
-
-
 public class Main {
     public static void main(String[] args) {
 
@@ -24,8 +19,7 @@ public class Main {
         Subtask subtask4 = new Subtask("Sgdfgd", "sit", 4, "DONE");
         Subtask subtask5 = new Subtask("JgfdgdfMP", "JUMP", 4, "NEW");
         Subtask subtask6 = new Subtask("211JgdfgdfgdfP", "JUMP", 4, "DONE");
-        // Yellow+
-        // переменные с маленькой буквы принято называть
+
         Subtask updSubtask4 = new Subtask(6, "jMP", "jhP", 3, "DONE");
         Manager manager = new Manager();
         Epic epic = new Epic("Sit", "sit");

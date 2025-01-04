@@ -1,10 +1,11 @@
 package modules;
 
+// RED
+// Лишние импорты необходимо удалять
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// Yellow
-// Было бы здорово переопределить equals и hashcode у этого класса
 public class Epic extends Task {
     private HashMap<Long, Subtask> subTasks = new HashMap<>();
 
@@ -25,11 +26,8 @@ public class Epic extends Task {
     }
 
     public void removeSubtaskById(long id) {
-        // RED +
-        // Запрещено проходиться по коллекции и удалять в ней элементы одновременно
         subTasks.remove(id);
         updateStatus();
-
     }
 
 
@@ -49,8 +47,6 @@ public class Epic extends Task {
                 '}';
     }
 
-    // RED+
-    // Методы принято называть с маленькой буквы
     public void updateStatus() {
         boolean hasNew = false;
         boolean hasInProcess = false;

@@ -75,6 +75,7 @@ public class Manager {
     public void removeEpicId(long id) {
         if (epicmap.containsKey(id)) {
             epicmap.remove(id);
+            subtaskmap.remove(id);
         } else {
             System.out.println("ТЫСЯЧА ЧЕРТЕЙ! ТАКОГО ID НЕТ НА 10 МИЛЕЙ ВПЕРЕД");
         }
@@ -91,9 +92,10 @@ public class Manager {
     // getEpicID
     public void removeSubtaskId(long id) {
         Subtask subtask = subtaskmap.get(id);
-        Epic epic = epicmap.get(subtask.getId());
+        Epic epic = epicmap.get(subtask.getEpicId());
         epic.removeSubtaskById(id);
         subtaskmap.remove(id);
+
     }
 
     public ArrayList<Subtask> getSubtasksByEpic(long epicId) {
@@ -127,7 +129,7 @@ public class Manager {
     // RED
     // getEpicID
     public void updateSubtask(Subtask subtask) {
-        Epic epic = epicmap.get(subtask.getId());
+        Epic epic = epicmap.get(subtask.getEpicId());
         epic.removeSubtaskById(subtask.getId());
         epic.addSubTask(subtask);
         subtaskmap.put(subtask.getId(), subtask);

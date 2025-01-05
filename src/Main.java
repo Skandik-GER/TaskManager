@@ -62,9 +62,6 @@ public class Main {
 
         System.out.println("----------------------------");
 
-        manager.removeAllSubtask();
-        manager.removeAllEpic();
-        manager.removeAllTasks();
         System.out.println(manager.getTasks());
         System.out.println(manager.getSubtasks());
         System.out.println(manager.getEpics());
@@ -74,6 +71,9 @@ public class Main {
         System.out.println(manager.getTasks());
         manager.removeEpicId(epic1.getId());
         System.out.println(manager.getEpics());
+        manager.removeAllSubtask();
+        manager.removeAllEpic();
+        manager.removeAllTasks();
 
 
     }

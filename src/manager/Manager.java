@@ -7,9 +7,6 @@ import model.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// RED+++++++++++++++++CTRL+ALT+L
-// Правила чекстайла не соблюдены
-// Не хватает пробелов, лишние отступы
 public class Manager {
     private HashMap<Long, Task> taskmap = new HashMap<>();
     private HashMap<Long, Subtask> subtaskmap = new HashMap<>();
@@ -22,8 +19,6 @@ public class Manager {
         nextId++;
     }
 
-    // RED+
-    // Лишний пустой метод, который ничего не делает
     public void createSubtask(Subtask subtask) {
 
         long epicID = subtask.getEpicId();
@@ -75,9 +70,8 @@ public class Manager {
         subtaskmap.clear();
     }
 
-    // RED+
-    // Эпик не удаляется
-    // Так же не удаляются все его сабтаски
+    // RED
+    // Не удаляются все сабтаски эпика
     public void removeEpicId(long id) {
         if (epicmap.containsKey(id)) {
             epicmap.remove(id);
@@ -89,16 +83,12 @@ public class Manager {
     public void removeAllSubtask() {
         for (Epic epic : epicmap.values()) {
             epic.removeSubtasksAll();
-            // RED+
-            // Излишне чистить мапу в цикле много раз
         }
         subtaskmap.clear();
     }
 
-    // RED+
-    // Неэффективно искать в цикле и перебирать все эпики
-    // Мы можем получить нужный эпик по полю epicId в сабтаске
-    // + излишне в цикле много раз удалять сабтаску и общего хранилища
+    // RED
+    // getEpicID
     public void removeSubtaskId(long id) {
         Subtask subtask = subtaskmap.get(id);
         Epic epic = epicmap.get(subtask.getId());
@@ -107,21 +97,11 @@ public class Manager {
     }
 
     public ArrayList<Subtask> getSubtasksByEpic(long epicId) {
-        // RED+
-        // Переменные принято называть с маленькой буквы
-        // RED+
-        // Не очень понятно как здесь возвращаются сабтаски эпика
-        // Конкретно в этой реализации находятся сабтаски, у которых айди совпадает с айди эпика
-        // Необходимо было сравнивать epicId сабтаска с айди эпика
-        // Либо же есть другой более оптимальный вариант:
-        // получить эпик по айди и вернуть все его сабтаски, которые хранятся внутри него
         Epic epic = epicmap.get(epicId);
-
         return new ArrayList<>(epic.getSubTask().values());
     }
 
     public Task getTaskById(long id) {
-
         return taskmap.get(id);
     }
 
@@ -137,12 +117,6 @@ public class Manager {
         taskmap.put(task.getId(), task);
     }
 
-    // RED+
-    // Необходимо сабтаски старого эпика оставлять
-    // Здесь получается, что старые сабтаски теряются и ни к какому эпику не относятся после обновления
-    // Потому что при обновлении приходит эпик с пустым списком
-
-    // Замечание все еще актуально, старые сабтаски не сохраняются в новый эпик
     public void updateEpic(Epic newEpic) {
         Epic oldEpic = epicmap.get(newEpic.getId());
         HashMap<Long, Subtask> subtasks = oldEpic.getSubTask();
@@ -150,14 +124,13 @@ public class Manager {
         epicmap.put(newEpic.getId(), newEpic);
     }
 
-    // RED+
-    // Необходимо пересчитывать статус у эпика,
-    // потому что у сабтаска после обновления он мог измениться
+    // RED
+    // getEpicID
     public void updateSubtask(Subtask subtask) {
-        subtaskmap.put(subtask.getId(), subtask);
         Epic epic = epicmap.get(subtask.getId());
         epic.removeSubtaskById(subtask.getId());
         epic.addSubTask(subtask);
+        subtaskmap.put(subtask.getId(), subtask);
     }
 
 }

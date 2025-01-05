@@ -1,14 +1,9 @@
 package model;
 
-// RED+
-// Лишние импорты необходимо удалять
-
-
 import java.util.HashMap;
 
 public class Epic extends Task {
     private HashMap<Long, Subtask> subTasks = new HashMap<>();
-
 
     public Epic(String name, String describe) {
         super(name, describe, "NEW");
@@ -56,7 +51,8 @@ public class Epic extends Task {
         boolean hasNew = false;
         boolean hasInProcess = false;
         boolean hasDone = false;
-
+        // Yellow
+        // Лучше добавлять блок default всегда
         for (Subtask subTask : subTasks.values()) {
             switch (subTask.getStatus()) {
                 case "NEW":

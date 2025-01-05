@@ -6,7 +6,6 @@ public class Task {
     protected long id;
     protected String status;
 
-
     public Task(String name, String describe, String status) {
         this.name = name;
         this.describe = describe;

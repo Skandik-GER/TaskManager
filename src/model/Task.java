@@ -1,4 +1,4 @@
-package modules;
+package model;
 
 public class Task {
     protected String name;
@@ -7,14 +7,14 @@ public class Task {
     protected String status;
 
 
-    public Task(String name,String describe,String status){
+    public Task(String name, String describe, String status) {
         this.name = name;
         this.describe = describe;
         this.status = status;
     }
 
-    public Task(long id,String name,String describe,String status){
-        this(name,describe,status);
+    public Task(long id, String name, String describe, String status) {
+        this(name, describe, status);
         this.id = id;
     }
 

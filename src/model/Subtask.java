@@ -1,4 +1,4 @@
-package modules;
+package model;
 
 
 import java.util.Objects;
@@ -7,14 +7,14 @@ public class Subtask extends Task {
     private long epicId;
 
 
-    public Subtask(String name, String describe,long epicId, String status) {
-        super(name, describe,status);
+    public Subtask(String name, String describe, long epicId, String status) {
+        super(name, describe, status);
         this.epicId = epicId;
     }
 
 
-    public Subtask(long id,String name, String describe,long epicId, String status) {
-        super(id,name, describe,status);
+    public Subtask(long id, String name, String describe, long epicId, String status) {
+        super(id, name, describe, status);
         this.epicId = epicId;
     }
 
@@ -32,7 +32,7 @@ public class Subtask extends Task {
         if (object == null || getClass() != object.getClass()) return false;
         Subtask subtask = (Subtask) object;
         return getEpicId() == subtask.getEpicId() && getName().equals(subtask.getName())
-                && getStatus().equals(subtask.getStatus()) && getId() == (subtask.getId()) ;
+                && getStatus().equals(subtask.getStatus()) && getId() == (subtask.getId());
     }
 
     @Override

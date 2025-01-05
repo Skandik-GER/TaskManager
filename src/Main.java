@@ -1,7 +1,7 @@
 import manager.Manager;
-import modules.Subtask;
-import modules.Task;
-import modules.Epic;
+import model.Subtask;
+import model.Task;
+import model.Epic;
 
 public class Main {
     public static void main(String[] args) {
@@ -40,7 +40,6 @@ public class Main {
         manager.createSubtask(subtask6);
 
 
-
         System.out.println(epic.getStatus());
         System.out.println(manager.getSubtasks());
         manager.updateSubtask(updSubtask4);
@@ -58,16 +57,14 @@ public class Main {
 
         System.out.println("----------------------------");
 
-        manager.updateEpic(epic);
-        System.out.println(manager.getEpics());
+        manager.updateEpic(epic1);
+        System.out.println(manager.getSubtasksByEpic(3));
 
         System.out.println("----------------------------");
 
-
-
         manager.removeAllSubtask();
-        manager.removeAllTasks();
         manager.removeAllEpic();
+        manager.removeAllTasks();
         System.out.println(manager.getTasks());
         System.out.println(manager.getSubtasks());
         System.out.println(manager.getEpics());

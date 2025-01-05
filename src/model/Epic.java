@@ -1,9 +1,9 @@
-package modules;
+package model;
 
-// RED
+// RED+
 // Лишние импорты необходимо удалять
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
 
 public class Epic extends Task {
@@ -15,7 +15,12 @@ public class Epic extends Task {
 
     }
 
-    public HashMap<Long,Subtask> getSubTask(){
+    public void setSubTasks(HashMap<Long, Subtask> subTasks) {
+        this.subTasks = subTasks;
+        updateStatus();
+    }
+
+    public HashMap<Long, Subtask> getSubTask() {
         return subTasks;
     }
 
@@ -47,7 +52,7 @@ public class Epic extends Task {
                 '}';
     }
 
-    public void updateStatus() {
+    private void updateStatus() {
         boolean hasNew = false;
         boolean hasInProcess = false;
         boolean hasDone = false;

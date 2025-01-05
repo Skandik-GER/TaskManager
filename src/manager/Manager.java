@@ -70,15 +70,17 @@ public class Manager {
         subtaskmap.clear();
     }
 
-    // RED
+    // RED+
     // Не удаляются все сабтаски эпика
     public void removeEpicId(long id) {
         if (epicmap.containsKey(id)) {
             epicmap.remove(id);
-            subtaskmap.remove(id);
-        } else {
-            System.out.println("ТЫСЯЧА ЧЕРТЕЙ! ТАКОГО ID НЕТ НА 10 МИЛЕЙ ВПЕРЕД");
+
+
         }
+        Epic epic = epicmap.get(id);
+        epic.removeSubtasksAll();
+
     }
 
     public void removeAllSubtask() {
@@ -88,7 +90,7 @@ public class Manager {
         subtaskmap.clear();
     }
 
-    // RED
+    // RED+
     // getEpicID
     public void removeSubtaskId(long id) {
         Subtask subtask = subtaskmap.get(id);
@@ -126,7 +128,7 @@ public class Manager {
         epicmap.put(newEpic.getId(), newEpic);
     }
 
-    // RED
+    // RED+
     // getEpicID
     public void updateSubtask(Subtask subtask) {
         Epic epic = epicmap.get(subtask.getEpicId());

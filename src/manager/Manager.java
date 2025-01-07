@@ -73,7 +73,9 @@ public class Manager {
     // RED+
     // Не удаляются все сабтаски эпика
     public void removeEpicId(long id) {
-        epicmap.remove(id);
+        Epic epic = epicmap.get(id);
+        epic.removeSubtasksAll();
+        subtaskmap.remove(id);
 
     }
 

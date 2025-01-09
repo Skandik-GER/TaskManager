@@ -70,8 +70,6 @@ public class Manager {
         subtaskmap.clear();
     }
 
-    // RED+
-    // Не удаляются все сабтаски эпика
     public void removeEpicId(long id) {
         Epic epic = epicmap.get(id);
         HashMap<Long,Subtask> subtasks = epic.getSubTask();
@@ -88,8 +86,6 @@ public class Manager {
         subtaskmap.clear();
     }
 
-    // RED+
-    // getEpicID
     public void removeSubtaskId(long id) {
         Subtask subtask = subtaskmap.get(id);
         Epic epic = epicmap.get(subtask.getEpicId());
@@ -126,8 +122,6 @@ public class Manager {
         epicmap.put(newEpic.getId(), newEpic);
     }
 
-    // RED+
-    // getEpicID
     public void updateSubtask(Subtask subtask) {
         Epic epic = epicmap.get(subtask.getEpicId());
         epic.removeSubtaskById(subtask.getId());

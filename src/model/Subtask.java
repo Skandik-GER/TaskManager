@@ -6,13 +6,13 @@ import java.util.Objects;
 public class Subtask extends Task {
     private long epicId;
 
-    public Subtask(String name, String describe, long epicId, String status) {
+    public Subtask(String name, String describe, long epicId, Status status) {
         super(name, describe, status);
         this.epicId = epicId;
     }
 
 
-    public Subtask(long id, String name, String describe, long epicId, String status) {
+    public Subtask(long id, String name, String describe, long epicId, Status status) {
         super(id, name, describe, status);
         this.epicId = epicId;
     }

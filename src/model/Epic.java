@@ -3,6 +3,8 @@ package model;
 import java.util.HashMap;
 
 public class Epic extends Task {
+    // RED
+    // Можно сделать поле финализированным и не привязываться к типу (объявить тип интерфейса)
     private HashMap<Long, Subtask> subTasks = new HashMap<>();
 
     public Epic(String name, String describe) {

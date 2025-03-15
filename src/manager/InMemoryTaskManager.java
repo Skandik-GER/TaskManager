@@ -10,7 +10,17 @@ import java.util.List;
 
 
 public class InMemoryTaskManager implements Manager{
+    // RED
+    // Отсутствует инкапсуляция
+
+    // RED
+    // Можно сделать final, как и HistoryManager.
+    // Их значения поменять получится, а вот присвоить новые ссылки нет.
     HistoryManager historyManager = new InMemoryHistoryManager();
+
+    // RED
+    // Уже изучили полиморфизм, поэтому следует объявлять переменные типом интерфейса или абстрактного класса
+    // Здесь подойдет просто Map
     final HashMap<Long, Task> taskmap = new HashMap<>();
     final HashMap<Long, Subtask> subtaskmap = new HashMap<>();
     final HashMap<Long, Epic> epicmap = new HashMap<>();

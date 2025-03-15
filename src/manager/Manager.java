@@ -7,6 +7,8 @@ import model.Task;
 import java.util.ArrayList;
 import java.util.List;
 
+// GREEN
+// Замечательно, абстракция поддерживается!
 public interface Manager {
 
 

@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager{
-    // RED
+    // RED ++
     // Уже изучили полиморфизм, поэтому следует объявлять переменные типом интерфейса или абстрактного класса
     // Здесь подойдет просто List
 
-    // YELLOW
+    // YELLOW -_-
     // В данном случае больше подойдет LinkedList,
     // так как часто происходит удаление и добавление начальных и конечных элементов
     // List<Task> history = new LinkedList<>(10);
@@ -20,12 +20,13 @@ public class InMemoryHistoryManager implements HistoryManager{
     // но аргумент initialCapacity - это лишь изначальная вместимость
     // Список все равно сможет расширяться
 
-    // RED
+    // RED++
     // По условию задачи необходимо сохранять историю лишь последних 10-ти задач
 
-    // YELLOW
+    // YELLOW++
     // так же поле можно сделать финализированным
-    ArrayList<Task> history = new ArrayList<>(10);
+    private final static int size = 10;
+    final List<Task> history = new ArrayList<>(size);
 
     @Override
     public void add(Task task) {

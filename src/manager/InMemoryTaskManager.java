@@ -7,24 +7,25 @@ import model.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class InMemoryTaskManager implements Manager{
-    // RED
+    // RED ++
     // Отсутствует инкапсуляция
 
-    // RED
+    // RED ++
     // Можно сделать final, как и HistoryManager.
     // Их значения поменять получится, а вот присвоить новые ссылки нет.
-    HistoryManager historyManager = new InMemoryHistoryManager();
+    private final HistoryManager historyManager = new InMemoryHistoryManager();
 
-    // RED
+    // RED++
     // Уже изучили полиморфизм, поэтому следует объявлять переменные типом интерфейса или абстрактного класса
     // Здесь подойдет просто Map
-    final HashMap<Long, Task> taskmap = new HashMap<>();
-    final HashMap<Long, Subtask> subtaskmap = new HashMap<>();
-    final HashMap<Long, Epic> epicmap = new HashMap<>();
-    long nextId = 1;
+    private final Map<Long, Task> taskmap = new HashMap<>();
+    private final Map<Long, Subtask> subtaskmap = new HashMap<>();
+    private final Map<Long, Epic> epicmap = new HashMap<>();
+    private long nextId = 1;
 
     @Override
     public void createTask(Task task) {

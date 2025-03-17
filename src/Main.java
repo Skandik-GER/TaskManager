@@ -29,7 +29,6 @@ public class Main {
         manager.createTask(task1);
         manager.createTask(task2);
         manager.updateTask(updtask3);
-        System.out.println(manager.getTaskById(2));
 
 
         manager.createEpic(epic);
@@ -42,51 +41,15 @@ public class Main {
         manager.createSubtask(subtask5);
         manager.createSubtask(subtask6);
 
-
-        System.out.println(epic.getStatus());
-        System.out.println(manager.getSubtasks());
-        manager.updateSubtask(updSubtask4);
-        System.out.println(epic.getStatus());
-        System.out.println(manager.getSubtasks());
-        System.out.println(epic.getStatus());
-
-
-        manager.getSubtaskById(subtask1.getId());
-        System.out.println(manager.getSubtasks());
-        manager.getTaskById(task1.getId());
-        System.out.println(manager.getTasks());
         manager.getEpicById(epic1.getId());
-        System.out.println(manager.getEpics());
-
-        System.out.println("----------------------------");
-
-        manager.updateEpic(epic1);
-        System.out.println(manager.getSubtasksByEpic(3));
-
-        System.out.println("----------------------------");
-        System.out.println("potato");
+        manager.getEpicById(epic2.getId());
+        manager.getTaskById(1);
+        manager.getTaskById(2);
+        manager.getSubtaskById(subtask1.getId());
+        manager.getSubtaskById(subtask2.getId());
+        manager.getSubtaskById(subtask3.getId());
+        manager.getSubtaskById(subtask4.getId());
         System.out.println(manager.getHistory());
-        System.out.println("---------------------------");
-        System.out.println(manager.getTasks());
-        System.out.println(manager.getSubtasks());
-        System.out.println(manager.getEpics());
-        System.out.println("----------------------------");
-        manager.removeSubtaskId(subtask1.getId());
-        System.out.println(manager.getSubtasks());
-        System.out.println("----------------------------");
-        manager.removeTaskId(task1.getId());
-        System.out.println(manager.getTasks());
-        System.out.println("----------------------------");
-        System.out.println(manager.getEpics());
-        manager.removeEpicId(3);
-        System.out.println(manager.getEpics());
-        System.out.println("----------------------------");
-        manager.removeAllSubtask();
-        manager.removeAllEpic();
-        manager.removeAllTasks();
-
-
-
 
     }
 }

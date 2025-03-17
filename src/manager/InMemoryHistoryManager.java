@@ -25,12 +25,18 @@ public class InMemoryHistoryManager implements HistoryManager{
 
     // YELLOW++
     // так же поле можно сделать финализированным
-    private final static int size = 10;
-    final List<Task> history = new ArrayList<>(size);
+    public List<Task> history = new ArrayList<>();
+    final static long size = 10;
+
 
     @Override
     public void add(Task task) {
-        history.add(task);
+        if(history.size() < size){
+           history.add(task);
+        }else{
+            history.removeFirst();
+            history.add(task);
+        }
     }
 
     @Override

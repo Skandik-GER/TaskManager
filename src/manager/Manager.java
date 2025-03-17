@@ -7,10 +7,7 @@ import model.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-// GREEN ++
-// Замечательно, абстракция поддерживается!
 public interface Manager {
-
 
     void createTask(Task task);
 
@@ -36,6 +33,9 @@ public interface Manager {
 
     void removeSubtaskId(long id);
 
+    // RED
+    // Уже изучили полиморфизм, поэтому следует объявлять переменные типом интерфейса или абстрактного класса
+    // Чтобы не привязываться к конкретному типу
     ArrayList<Subtask> getSubtasksByEpic(long epicId);
 
     Task getTaskById(long id);

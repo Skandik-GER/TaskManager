@@ -1,33 +1,34 @@
 package model;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Epic extends Task {
-    // RED
+    // RED(Маша сказала не надо)(Маша оказалась права)
     // Можно сделать поле финализированным и не привязываться к типу (объявить тип интерфейса)
 
-    // RED
+    // RED++
     // Уже изучили полиморфизм, поэтому следует объявлять переменные типом интерфейса или абстрактного класса
     // Чтобы не привязываться к конкретному типу
-    private HashMap<Long, Subtask> subTasks = new HashMap<>();
+    private  Map<Long, Subtask> subTasks = new HashMap<>();
 
     public Epic(String name, String describe) {
         super(name, describe, Status.NEW);
 
     }
 
-    // RED
+    // RED++
     // Уже изучили полиморфизм, поэтому следует объявлять переменные типом интерфейса или абстрактного класса
     // Чтобы не привязываться к конкретному типу
-    public void setSubTasks(HashMap<Long, Subtask> subTasks) {
+    public void setSubTasks(Map<Long, Subtask> subTasks) {
         this.subTasks = subTasks;
         updateStatus();
     }
 
-    // RED
+    // RED++
     // Уже изучили полиморфизм, поэтому следует объявлять переменные типом интерфейса или абстрактного класса
     // Чтобы не привязываться к конкретному типу
-    public HashMap<Long, Subtask> getSubTask() {
+    public Map<Long, Subtask> getSubTask() {
         return subTasks;
     }
 

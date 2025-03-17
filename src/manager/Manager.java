@@ -4,7 +4,7 @@ import model.Epic;
 import model.Subtask;
 import model.Task;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 public interface Manager {
@@ -15,11 +15,11 @@ public interface Manager {
 
     void createEpic(Epic epic);
 
-    ArrayList<Task> getTasks();
+    List<Task> getTasks();
 
-    ArrayList<Epic> getEpics();
+    List<Epic> getEpics();
 
-    ArrayList<Subtask> getSubtasks();
+    List<Subtask> getSubtasks();
 
     void removeTaskId(long id);
 
@@ -33,10 +33,10 @@ public interface Manager {
 
     void removeSubtaskId(long id);
 
-    // RED
+    // RED ++
     // Уже изучили полиморфизм, поэтому следует объявлять переменные типом интерфейса или абстрактного класса
     // Чтобы не привязываться к конкретному типу
-    ArrayList<Subtask> getSubtasksByEpic(long epicId);
+    List<Subtask> getSubtasksByEpic(long epicId);
 
     Task getTaskById(long id);
 

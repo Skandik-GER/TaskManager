@@ -33,9 +33,7 @@ public interface Manager {
 
     void removeSubtaskId(long id);
 
-    // RED ++
-    // Уже изучили полиморфизм, поэтому следует объявлять переменные типом интерфейса или абстрактного класса
-    // Чтобы не привязываться к конкретному типу
+
     List<Subtask> getSubtasksByEpic(long epicId);
 
     Task getTaskById(long id);

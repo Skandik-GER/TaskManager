@@ -11,9 +11,7 @@ import java.util.Map;
 
 
 public class InMemoryTaskManager implements Manager{
-    // RED++
-    // Мы создали утилитарный класс для того, чтобы он здесь возвращал там менеджера нужного
-    // = Managers.getDefaultHistory();
+
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
     private final Map<Long, Task> taskmap = new HashMap<>();
@@ -49,23 +47,17 @@ public class InMemoryTaskManager implements Manager{
         nextId++;
         epicmap.put(epic.getId(), epic);
     }
-    // RED++
-    // Уже изучили полиморфизм, поэтому следует объявлять переменные типом интерфейса или абстрактного класса
-    // Чтобы не привязываться к конкретному типу
+
     @Override
     public List<Task> getTasks() {
         return new ArrayList<>(taskmap.values());
     }
-    // RED++
-    // Уже изучили полиморфизм, поэтому следует объявлять переменные типом интерфейса или абстрактного класса
-    // Чтобы не привязываться к конкретному типу
+
     @Override
     public List<Epic> getEpics() {
         return new ArrayList<>(epicmap.values());
     }
-    // RED++
-    // Уже изучили полиморфизм, поэтому следует объявлять переменные типом интерфейса или абстрактного класса
-    // Чтобы не привязываться к конкретному типу
+
     @Override
     public List<Subtask> getSubtasks() {
         return new ArrayList<>(subtaskmap.values());
@@ -111,9 +103,7 @@ public class InMemoryTaskManager implements Manager{
         subtaskmap.remove(id);
 
     }
-    // RED++
-    // Уже изучили полиморфизм, поэтому следует объявлять переменные типом интерфейса или абстрактного класса
-    // Чтобы не привязываться к конкретному типу
+
     @Override
     public List<Subtask> getSubtasksByEpic(long epicId) {
         Epic epic = epicmap.get(epicId);

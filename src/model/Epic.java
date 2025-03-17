@@ -4,12 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Epic extends Task {
-    // RED(Маша сказала не надо)(Маша оказалась права)
-    // Можно сделать поле финализированным и не привязываться к типу (объявить тип интерфейса)
 
-    // RED++
-    // Уже изучили полиморфизм, поэтому следует объявлять переменные типом интерфейса или абстрактного класса
-    // Чтобы не привязываться к конкретному типу
     private  Map<Long, Subtask> subTasks = new HashMap<>();
 
     public Epic(String name, String describe) {
@@ -17,17 +12,11 @@ public class Epic extends Task {
 
     }
 
-    // RED++
-    // Уже изучили полиморфизм, поэтому следует объявлять переменные типом интерфейса или абстрактного класса
-    // Чтобы не привязываться к конкретному типу
     public void setSubTasks(Map<Long, Subtask> subTasks) {
         this.subTasks = subTasks;
         updateStatus();
     }
 
-    // RED++
-    // Уже изучили полиморфизм, поэтому следует объявлять переменные типом интерфейса или абстрактного класса
-    // Чтобы не привязываться к конкретному типу
     public Map<Long, Subtask> getSubTask() {
         return subTasks;
     }
@@ -64,8 +53,7 @@ public class Epic extends Task {
         boolean hasNew = false;
         boolean hasInProcess = false;
         boolean hasDone = false;
-        // Yellow
-        // Лучше добавлять блок default всегда
+
         for (Subtask subTask : subTasks.values()) {
             switch (subTask.getStatus()) {
                 case Status.NEW:

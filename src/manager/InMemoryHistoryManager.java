@@ -29,6 +29,9 @@ public class InMemoryHistoryManager implements HistoryManager {
             final Node<T> oldtail = tail;
             final Node<T> newNode = new Node<>(oldtail, null, task);
             tail = newNode;
+            if (oldtail != null) {
+                oldtail.next = newNode;
+            }
             if (size == 0) {
                 head = newNode;
             }
@@ -36,19 +39,33 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
 
         public void removeNode(Node<T> node) {
+            if(node == null){
+                return;
+            }
+            if (size == 1) {
+                if (head == node) {
+                    head = null;
+                    tail = null;
+                    size--;
+                    return;
+                }
+            }
             if (node == head) {
-                node = node.next;
+                head = node.next;
                 if (head != null) {
                     head.prev = null;
                 }
+                size--;
+                return;
             }
             if (node == tail) {
-                node = node.prev;
+                tail = node.prev;
                 if (tail != null) {
                     tail.next = null;
                 }
+                size--;
+                return;
             }
-
             Node<T> nodePrev = node.prev;
             nodePrev.next = node.next;
 
@@ -69,12 +86,18 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
-        tasksHistory.remove(task.getId());
+        Node<Task> Node = tasksHistory.get(task.getId());
+        if (task == null) {
+            return;
+        }
+        tasks.removeNode(Node);
         tasks.linkLast(task);
+        tasksHistory.put(task.getId(), tasks.tail);
+
     }
 
     @Override
-    public void remove(int id) {
+    public void remove(long id) {
         Node<Task> node = tasksHistory.get(id);
         tasks.removeNode(node);
         tasksHistory.remove(id);
@@ -83,5 +106,18 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public List<Task> getHistory() {
         return tasks.getTasks();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InMemoryHistoryManager that = (InMemoryHistoryManager) o;
+        return Objects.equals(tasksHistory, that.tasksHistory) && Objects.equals(tasks, that.tasks);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tasksHistory, tasks);
     }
 }

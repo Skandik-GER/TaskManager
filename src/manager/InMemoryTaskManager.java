@@ -4,10 +4,7 @@ import model.Epic;
 import model.Subtask;
 import model.Task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class InMemoryTaskManager implements Manager{
@@ -66,6 +63,7 @@ public class InMemoryTaskManager implements Manager{
     public void removeTaskId(long id) {
         if (taskmap.containsKey(id)) {
             taskmap.remove(id);
+            historyManager.remove(id);
         } else {
             System.out.println("Такой Id не найден");
         }
@@ -83,10 +81,12 @@ public class InMemoryTaskManager implements Manager{
     public void removeEpicId(long id) {
         Epic epic = epicmap.get(id);
         Map<Long,Subtask> subtasks = epic.getSubTask();
-        for(Subtask subtask : subtasks.values()){
-            subtaskmap.remove(subtask.getId());
+        for(Long subtaskId : subtasks.keySet()){
+            historyManager.remove(subtaskId);
+            subtaskmap.remove(subtaskId);
         }
         epicmap.remove(id);
+        historyManager.remove(id);
     }
     @Override
     public void removeAllSubtask() {
@@ -101,6 +101,7 @@ public class InMemoryTaskManager implements Manager{
         Epic epic = epicmap.get(subtask.getEpicId());
         epic.removeSubtaskById(id);
         subtaskmap.remove(id);
+        historyManager.remove(id);
 
     }
 

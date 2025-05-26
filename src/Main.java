@@ -13,7 +13,7 @@ public class Main {
 
         Task task1 = new Task("Sleep", "Fall asleep ", Status.NEW);
         Task task2 = new Task("sSleep", "Fall asleep ", Status.NEW);
-        Task updtask3 = new Task(2, "NotSleep", "Not sleep", Status.IN_PROCESS);
+        Task updtask3 = new Task(1, "NotSleep", "Not sleep", Status.IN_PROCESS);
 
         Epic epic1 = new Epic("Backflip", "Jump with flip");
         Epic epic2 = new Epic("Backflip", "Jump with flip");
@@ -29,6 +29,18 @@ public class Main {
         Subtask updSubtask4 = new Subtask(6, "jMP", "jhP", 3, Status.DONE);
         Manager manager = new InMemoryTaskManager();
         Epic epic = new Epic("Sit", "sit");
+
+        // RED
+        // Сценарий, при котором случается баг
+        // (проблема в методе обновления, задачу необходимо обновлять так же в истории, а то произойдет утечка)
+        manager.createTask(task1);
+        manager.getTaskById(1);
+        System.out.println(manager.getHistory());
+        manager.updateTask(updtask3);
+        System.out.println(manager.getHistory());
+        manager.removeAllTasks();
+        System.out.println(manager.getHistory());
+
 //        manager.createTask(task1);
 //        manager.createTask(task2);
 //        manager.updateTask(updtask3);
@@ -74,32 +86,32 @@ public class Main {
 //        System.out.println("---");
 //        manager.removeEpicId(epic1.getId());
 //        System.out.println(manager.getHistory());
-        manager.createEpic(epic2);
-        manager.createTask(task1);
-        manager.createTask(task2);
-        manager.createSubtask(subtask1);
-        manager.createSubtask(subtask2);
-        System.out.println("____Tasks____");
-        manager.getTaskById(task1.getId());
-        System.out.println(manager.getHistory());
-        manager.getTaskById(task2.getId());
-        System.out.println(manager.getHistory());
-        manager.getTaskById(task1.getId());
-        System.out.println(manager.getHistory());
-        manager.removeTaskId(task1.getId());
-        System.out.println(manager.getHistory());
-        manager.removeTaskId(task2.getId());
-        System.out.println(manager.getHistory());
-        System.out.println("____SUBTASKS____");
-        manager.getSubtaskById(subtask1.getId());
-        System.out.println(manager.getHistory());
-        manager.getSubtaskById(subtask2.getId());
-        System.out.println(manager.getHistory());
-        System.out.println("____Epics____");
-        manager.getEpicById(epic2.getId());
-        System.out.println(manager.getHistory());
-        manager.removeEpicId(epic2.getId());
-        System.out.println(manager.getHistory());
+//        manager.createEpic(epic2);
+//        manager.createTask(task1);
+//        manager.createTask(task2);
+//        manager.createSubtask(subtask1);
+//        manager.createSubtask(subtask2);
+//        System.out.println("____Tasks____");
+//        manager.getTaskById(task1.getId());
+//        System.out.println(manager.getHistory());
+//        manager.getTaskById(task2.getId());
+//        System.out.println(manager.getHistory());
+//        manager.getTaskById(task1.getId());
+//        System.out.println(manager.getHistory());
+//        manager.removeTaskId(task1.getId());
+//        System.out.println(manager.getHistory());
+//        manager.removeTaskId(task2.getId());
+//        System.out.println(manager.getHistory());
+//        System.out.println("____SUBTASKS____");
+//        manager.getSubtaskById(subtask1.getId());
+//        System.out.println(manager.getHistory());
+//        manager.getSubtaskById(subtask2.getId());
+//        System.out.println(manager.getHistory());
+//        System.out.println("____Epics____");
+//        manager.getEpicById(epic2.getId());
+//        System.out.println(manager.getHistory());
+//        manager.removeEpicId(epic2.getId());
+//        System.out.println(manager.getHistory());
 
 
     }

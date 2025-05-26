@@ -80,6 +80,8 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
     }
 
+    // YELLOW
+    // Поля принято объявлять до методов
     Map<Long, Node<Task>> tasksHistory = new HashMap<>();
     CustomLinkedList<Task> tasks = new CustomLinkedList<>();
 

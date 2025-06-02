@@ -1,6 +1,3 @@
-
-import manager.HistoryManager;
-import manager.InMemoryHistoryManager;
 import manager.InMemoryTaskManager;
 import manager.Manager;
 import model.Status;
@@ -15,8 +12,8 @@ public class Main {
         Task task2 = new Task("sSleep", "Fall asleep ", Status.NEW);
         Task updtask3 = new Task(1, "NotSleep", "Not sleep", Status.IN_PROCESS);
 
-        Epic epic1 = new Epic("Backflip", "Jump with flip");
-        Epic epic2 = new Epic("Backflip", "Jump with flip");
+        Epic epic1 = new Epic("Backflip1", "Jump with flip");
+        Epic epic2 = new Epic("Backflip2", "Jump with flip");
 
 
         Subtask subtask1 = new Subtask("Sit", "sit", 1, Status.DONE);
@@ -33,13 +30,19 @@ public class Main {
         // RED
         // Сценарий, при котором случается баг
         // (проблема в методе обновления, задачу необходимо обновлять так же в истории, а то произойдет утечка)
-        manager.createTask(task1);
-        manager.getTaskById(1);
-        System.out.println(manager.getHistory());
-        manager.updateTask(updtask3);
-        System.out.println(manager.getHistory());
-        manager.removeAllTasks();
-        System.out.println(manager.getHistory());
+//        manager.createTask(task1);
+//        manager.getTaskById(1);
+//        System.out.println(manager.getHistory());
+//        manager.updateTask(updtask3);
+//        System.out.println(manager.getHistory());
+//        manager.removeAllTasks();
+//        System.out.println(manager.getHistory());
+
+//        manager.createSubtask(subtask1);
+//        manager.createEpic(epic2);
+//        manager.updateEpic(epic2);
+//        System.out.println(manager.getHistory());
+
 
 //        manager.createTask(task1);
 //        manager.createTask(task2);
@@ -47,15 +50,17 @@ public class Main {
 //
 //
 //        manager.createEpic(epic);
-//        manager.createEpic(epic1);
-//        manager.createEpic(epic2);
-//
-//        manager.createSubtask(subtask1);
-//        manager.createSubtask(subtask2);
-//        manager.createSubtask(subtask3);
-//        manager.createSubtask(subtask4);
-//        manager.createSubtask(subtask5);
-//        manager.createSubtask(subtask6);
+        manager.createEpic(epic1);
+        manager.createEpic(epic2);
+
+        manager.createSubtask(subtask1);
+        manager.createSubtask(subtask2);
+        manager.createSubtask(subtask3);
+        manager.createSubtask(subtask4);
+        manager.createSubtask(subtask5);
+        manager.createSubtask(subtask6);
+        manager.updateSubtask(subtask3);
+        System.out.println(manager.getHistory());
 //
 //        manager.getEpicById(epic1.getId());
 //        manager.getEpicById(epic2.getId());

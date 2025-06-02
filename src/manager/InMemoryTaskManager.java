@@ -45,24 +45,33 @@ public class InMemoryTaskManager implements Manager{
         epicmap.put(epic.getId(), epic);
     }
 
-    // RED
+    // RED+
     // Задачи необходимо добавить в историю
     @Override
     public List<Task> getTasks() {
+        for(Task task: taskmap.values()){
+            historyManager.add(task);
+        }
         return new ArrayList<>(taskmap.values());
     }
 
-    // RED
+    // RED+
     // Задачи необходимо добавить в историю
     @Override
     public List<Epic> getEpics() {
+        for(Epic epic: epicmap.values()){
+            historyManager.add(epic);
+        }
         return new ArrayList<>(epicmap.values());
     }
 
-    // RED
+    // RED+
     // Задачи необходимо добавить в историю
     @Override
     public List<Subtask> getSubtasks() {
+        for(Subtask subtask : subtaskmap.values()){
+            historyManager.add(subtask);
+        }
         return new ArrayList<>(subtaskmap.values());
     }
     @Override
@@ -74,17 +83,27 @@ public class InMemoryTaskManager implements Manager{
             System.out.println("Такой Id не найден");
         }
     }
-    // RED
+    // RED+
     // При удалении задач, так же необходимо почистить историю
     @Override
     public void removeAllTasks() {
+        for(Task task : taskmap.values()){
+            historyManager.remove(task.getId());
+        }
         taskmap.clear();
     }
 
-    // RED
-    // 1. Нет аннотации переопределения
-    // 2. При удалении эпиков, так же необходимо почистить соответствующие задачи из истории
+    // RED+
+    // 1. Нет аннотации переопределения+
+    // 2. При удалении эпиков, так же необходимо почистить соответствующие задачи из истории+?
+    @Override
     public void removeAllEpic() {
+        for(Epic epic : epicmap.values()){
+            historyManager.remove(epic.getId());
+        }
+        for(Subtask subtask : subtaskmap.values()){
+            historyManager.remove(subtask.getId());
+        }
         epicmap.clear();
         subtaskmap.clear();
     }
@@ -99,12 +118,15 @@ public class InMemoryTaskManager implements Manager{
         epicmap.remove(id);
         historyManager.remove(id);
     }
-    // RED
+    // RED+
     // При удалении подзадач, так же необходимо почистить историю
     @Override
     public void removeAllSubtask() {
         for (Epic epic : epicmap.values()) {
             epic.removeSubtasksAll();
+        }
+        for (Subtask subtask : subtaskmap.values()) {
+            historyManager.remove(subtask.getId());
         }
         subtaskmap.clear();
     }
@@ -117,11 +139,14 @@ public class InMemoryTaskManager implements Manager{
         historyManager.remove(id);
 
     }
-    // RED
+    // RED+
     // Необходимо добавить в историю все сабтаски эпика
     @Override
     public List<Subtask> getSubtasksByEpic(long epicId) {
         Epic epic = epicmap.get(epicId);
+        for(Subtask subtask: epic.getSubTask().values()){
+            historyManager.add(subtask);
+        }
         return new ArrayList<>(epic.getSubTask().values());
     }
     @Override
@@ -139,15 +164,16 @@ public class InMemoryTaskManager implements Manager{
         historyManager.add(epicmap.get(id));
         return epicmap.get(id);
     }
-    // RED
+    // RED+
     // В main показал тестовый сценарий, при котором произойдет баг
     // из-за этого метода
     @Override
     public void updateTask(Task task) {
+        historyManager.add(task);
         taskmap.put(task.getId(), task);
     }
 
-    // RED
+    // RED+
     // В main показал тестовый сценарий, при котором произойдет баг
     // из-за этого метода
     @Override
@@ -155,9 +181,10 @@ public class InMemoryTaskManager implements Manager{
         Epic oldEpic = epicmap.get(newEpic.getId());
         Map<Long, Subtask> subtasks = oldEpic.getSubTask();
         newEpic.setSubTasks(subtasks);
+        historyManager.add(newEpic);
         epicmap.put(newEpic.getId(), newEpic);
     }
-    // RED
+    // RED+?
     // В main показал тестовый сценарий, при котором произойдет баг
     // из-за этого метода
     @Override
@@ -165,6 +192,7 @@ public class InMemoryTaskManager implements Manager{
         Epic epic = epicmap.get(subtask.getEpicId());
         epic.removeSubtaskById(subtask.getId());
         epic.addSubTask(subtask);
+        historyManager.add(subtask);
         subtaskmap.put(subtask.getId(), subtask);
     }
     @Override

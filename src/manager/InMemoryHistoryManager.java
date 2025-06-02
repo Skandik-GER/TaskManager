@@ -8,8 +8,8 @@ import java.util.*;
 public class InMemoryHistoryManager implements HistoryManager {
     // RED+
     // Модификаторов не хватает
-    protected Map<Long, Node<Task>> tasksHistory = new HashMap<>();
-    protected CustomLinkedList<Task> tasks = new CustomLinkedList<>();
+    protected final Map<Long, Node<Task>> tasksHistory = new HashMap<>();
+    protected final CustomLinkedList<Task> tasks = new CustomLinkedList<>();
 
     public static class CustomLinkedList<T> {
 

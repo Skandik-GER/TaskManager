@@ -19,7 +19,7 @@ public class Epic extends Task {
 
     // YELLOW
     // Метод лучше назвать getSubtasks
-    public Map<Long, Subtask> getSubTask() {
+    public Map<Long, Subtask> getSubTasks() {
         return subTasks;
     }
 

@@ -6,10 +6,10 @@ import model.Task;
 import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    // RED
+    // RED+
     // Модификаторов не хватает
-    Map<Long, Node<Task>> tasksHistory = new HashMap<>();
-    CustomLinkedList<Task> tasks = new CustomLinkedList<>();
+    protected Map<Long, Node<Task>> tasksHistory = new HashMap<>();
+    protected CustomLinkedList<Task> tasks = new CustomLinkedList<>();
 
     public static class CustomLinkedList<T> {
 

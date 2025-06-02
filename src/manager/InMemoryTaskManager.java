@@ -100,7 +100,7 @@ public class InMemoryTaskManager implements Manager{
     @Override
     public void removeEpicId(long id) {
         Epic epic = epicmap.get(id);
-        Map<Long,Subtask> subtasks = epic.getSubTask();
+        Map<Long,Subtask> subtasks = epic.getSubTasks();
         for(Long subtaskId : subtasks.keySet()){
             historyManager.remove(subtaskId);
             subtaskmap.remove(subtaskId);
@@ -132,10 +132,10 @@ public class InMemoryTaskManager implements Manager{
     @Override
     public List<Subtask> getSubtasksByEpic(long epicId) {
         Epic epic = epicmap.get(epicId);
-        for(Subtask subtask: epic.getSubTask().values()){
+        for(Subtask subtask: epic.getSubTasks().values()){
             historyManager.add(subtask);
         }
-        return new ArrayList<>(epic.getSubTask().values());
+        return new ArrayList<>(epic.getSubTasks().values());
     }
     @Override
     public Task getTaskById(long id) {
@@ -164,7 +164,7 @@ public class InMemoryTaskManager implements Manager{
     @Override
     public void updateEpic(Epic newEpic) {
         Epic oldEpic = epicmap.get(newEpic.getId());
-        Map<Long, Subtask> subtasks = oldEpic.getSubTask();
+        Map<Long, Subtask> subtasks = oldEpic.getSubTasks();
         newEpic.setSubTasks(subtasks);
         historyManager.add(newEpic);
         epicmap.put(newEpic.getId(), newEpic);

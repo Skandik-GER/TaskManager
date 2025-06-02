@@ -17,6 +17,8 @@ public class Epic extends Task {
         updateStatus();
     }
 
+    // YELLOW
+    // Метод лучше назвать getSubtasks
     public Map<Long, Subtask> getSubTask() {
         return subTasks;
     }
@@ -45,7 +47,7 @@ public class Epic extends Task {
                 ", status='" + status + '\'' +
                 ", describe='" + describe + '\'' +
                 ", name='" + name + '\'' +
-                ", subTasks=" + subTasks +
+                ", subTasksSize=" + subTasks.size() +
                 '}';
     }
 
@@ -56,15 +58,9 @@ public class Epic extends Task {
 
         for (Subtask subTask : subTasks.values()) {
             switch (subTask.getStatus()) {
-                case NEW:
-                    hasNew = true;
-                    break;
-                case IN_PROCESS:
-                    hasInProcess = true;
-                    break;
-                case DONE:
-                    hasDone = true;
-                    break;
+                case NEW -> hasNew = true;
+                case IN_PROCESS -> hasInProcess = true;
+                case DONE -> hasDone = true;
             }
         }
 

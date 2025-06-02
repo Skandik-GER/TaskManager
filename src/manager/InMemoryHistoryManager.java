@@ -6,7 +6,12 @@ import model.Task;
 import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    public class CustomLinkedList<T> {
+    // RED
+    // Модификаторов не хватает
+    Map<Long, Node<Task>> tasksHistory = new HashMap<>();
+    CustomLinkedList<Task> tasks = new CustomLinkedList<>();
+
+    public static class CustomLinkedList<T> {
 
         private Node<T> head;
 
@@ -80,18 +85,9 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
     }
 
-    // YELLOW
-    // Поля принято объявлять до методов
-    Map<Long, Node<Task>> tasksHistory = new HashMap<>();
-    CustomLinkedList<Task> tasks = new CustomLinkedList<>();
-
-
     @Override
     public void add(Task task) {
         Node<Task> Node = tasksHistory.get(task.getId());
-        if (task == null) {
-            return;
-        }
         tasks.removeNode(Node);
         tasks.linkLast(task);
         tasksHistory.put(task.getId(), tasks.tail);

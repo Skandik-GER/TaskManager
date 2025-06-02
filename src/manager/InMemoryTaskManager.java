@@ -45,8 +45,6 @@ public class InMemoryTaskManager implements Manager{
         epicmap.put(epic.getId(), epic);
     }
 
-    // RED+
-    // Задачи необходимо добавить в историю
     @Override
     public List<Task> getTasks() {
         for(Task task: taskmap.values()){
@@ -55,8 +53,6 @@ public class InMemoryTaskManager implements Manager{
         return new ArrayList<>(taskmap.values());
     }
 
-    // RED+
-    // Задачи необходимо добавить в историю
     @Override
     public List<Epic> getEpics() {
         for(Epic epic: epicmap.values()){
@@ -64,9 +60,6 @@ public class InMemoryTaskManager implements Manager{
         }
         return new ArrayList<>(epicmap.values());
     }
-
-    // RED+
-    // Задачи необходимо добавить в историю
     @Override
     public List<Subtask> getSubtasks() {
         for(Subtask subtask : subtaskmap.values()){
@@ -83,8 +76,7 @@ public class InMemoryTaskManager implements Manager{
             System.out.println("Такой Id не найден");
         }
     }
-    // RED+
-    // При удалении задач, так же необходимо почистить историю
+
     @Override
     public void removeAllTasks() {
         for(Task task : taskmap.values()){
@@ -93,9 +85,7 @@ public class InMemoryTaskManager implements Manager{
         taskmap.clear();
     }
 
-    // RED+
-    // 1. Нет аннотации переопределения+
-    // 2. При удалении эпиков, так же необходимо почистить соответствующие задачи из истории+?
+
     @Override
     public void removeAllEpic() {
         for(Epic epic : epicmap.values()){
@@ -118,8 +108,7 @@ public class InMemoryTaskManager implements Manager{
         epicmap.remove(id);
         historyManager.remove(id);
     }
-    // RED+
-    // При удалении подзадач, так же необходимо почистить историю
+
     @Override
     public void removeAllSubtask() {
         for (Epic epic : epicmap.values()) {
@@ -139,8 +128,7 @@ public class InMemoryTaskManager implements Manager{
         historyManager.remove(id);
 
     }
-    // RED+
-    // Необходимо добавить в историю все сабтаски эпика
+
     @Override
     public List<Subtask> getSubtasksByEpic(long epicId) {
         Epic epic = epicmap.get(epicId);
@@ -173,9 +161,6 @@ public class InMemoryTaskManager implements Manager{
         taskmap.put(task.getId(), task);
     }
 
-    // RED+
-    // В main показал тестовый сценарий, при котором произойдет баг
-    // из-за этого метода
     @Override
     public void updateEpic(Epic newEpic) {
         Epic oldEpic = epicmap.get(newEpic.getId());
@@ -184,9 +169,7 @@ public class InMemoryTaskManager implements Manager{
         historyManager.add(newEpic);
         epicmap.put(newEpic.getId(), newEpic);
     }
-    // RED+?
-    // В main показал тестовый сценарий, при котором произойдет баг
-    // из-за этого метода
+
     @Override
     public void updateSubtask(Subtask subtask) {
         Epic epic = epicmap.get(subtask.getEpicId());
@@ -200,16 +183,14 @@ public class InMemoryTaskManager implements Manager{
         return historyManager.getHistory();
     }
 
-    // YELLOW
-    // Лучше выводить просто размеры мап, чтобы информация в выводе не казалась перегруженной
     @Override
     public String toString() {
         return "InMemoryTaskManager{" +
-                "taskmap=" + taskmap +
-                ", subtaskmap=" + subtaskmap +
-                ", epicmap=" + epicmap +
-                ", history=" + historyManager.getHistory() +
-                ", nextId=" + nextId +
+                "taskmapSize=" + taskmap.size() +
+                ", subtaskmapSize=" + subtaskmap.size() +
+                ", epicmapSize=" + epicmap.size() +
+                ", historySize=" + historyManager.getHistory().size() +
+                ", nextIdSize=" + nextId +
                 '}';
     }
 

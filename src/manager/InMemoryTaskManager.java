@@ -9,12 +9,12 @@ import java.util.*;
 
 public class InMemoryTaskManager implements Manager{
 
-    private final HistoryManager historyManager = Managers.getDefaultHistory();
+    protected final HistoryManager historyManager = Managers.getDefaultHistory();
 
-    private final Map<Long, Task> taskmap = new HashMap<>();
-    private final Map<Long, Subtask> subtaskmap = new HashMap<>();
-    private final Map<Long, Epic> epicmap = new HashMap<>();
-    private long nextId = 1;
+    protected final Map<Long, Task> taskmap = new HashMap<>();
+    protected final Map<Long, Subtask> subtaskmap = new HashMap<>();
+    protected final Map<Long, Epic> epicmap = new HashMap<>();
+    protected long nextId = 1;
 
     @Override
     public void createTask(Task task) {

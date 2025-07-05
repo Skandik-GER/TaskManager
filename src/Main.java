@@ -1,18 +1,20 @@
+import manager.FileBackedTasksManager;
 import manager.InMemoryTaskManager;
 import manager.Manager;
 import model.Status;
 import model.Subtask;
 import model.Task;
 import model.Epic;
+import model.Parser;
 
 public class Main {
     public static void main(String[] args) {
-
-//        Task task1 = new Task("Sleep", "Fall asleep ", Status.NEW);
-//        Task task2 = new Task("sSleep", "Fall asleep ", Status.NEW);
+        Manager manager = new FileBackedTasksManager();
+        Task task1 = new Task("Karowka", "Fall asleep ", Status.NEW);
+        Task task2 = new Task("sSleep", "Fall asleep ", Status.NEW);
 //        Task updtask3 = new Task(1, "NotSleep", "Not sleep", Status.IN_PROCESS);
 
-        Epic epic1 = new Epic("Backflip1", "Jump with flip");
+        Epic epic1 = new Epic("Backflip2", "Jump with flip");
 //        Epic epic2 = new Epic("Backflip2", "Jump with flip");
 
 //
@@ -24,14 +26,15 @@ public class Main {
 //        Subtask subtask6 = new Subtask("211JgdfgdfgdfP", "JUMP", 4, Status.DONE);
 
         Subtask updSubtask = new Subtask(2, "jMP", "jhP", 1, Status.DONE);
-        Manager manager = new InMemoryTaskManager();
         manager.createEpic(epic1);
         manager.createSubtask(subtask1);
         manager.getSubtaskById(2);
         manager.getEpicById(1);
         manager.updateSubtask(updSubtask);
         System.out.println(manager.getHistory());
-//        Epic epic = new Epic("Sit", "sit");
+
+
+        // Epic epic = new Epic("Sit", "sit");
 
         // RED
         // Сценарий, при котором случается баг

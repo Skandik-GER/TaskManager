@@ -17,6 +17,9 @@ public class Task {
         this.id = id;
     }
 
+    public Task(long id, String name, String describe, String status) {
+    }
+
     public String getName() {
         return name;
     }
@@ -57,5 +60,14 @@ public class Task {
                 ", id=" + id +
                 ", status='" + status + '\'' +
                 '}';
+    }
+
+    public Task fromString(String value){
+        String[] parts = value.split(",");
+        String name = parts[1];
+        String describe = parts[2];
+        long id = Long.parseLong(parts[0]);
+        String status = parts[3];
+        return  new Task(id,name,describe,status);
     }
 }

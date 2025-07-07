@@ -62,12 +62,5 @@ public class Task {
                 '}';
     }
 
-    public Task fromString(String value){
-        String[] parts = value.split(",");
-        String name = parts[1];
-        String describe = parts[2];
-        long id = Long.parseLong(parts[0]);
-        String status = parts[3];
-        return  new Task(id,name,describe,status);
-    }
+
 }

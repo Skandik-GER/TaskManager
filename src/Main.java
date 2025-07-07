@@ -31,7 +31,7 @@ public class Main {
         manager.getSubtaskById(2);
         manager.getEpicById(1);
         manager.updateSubtask(updSubtask);
-        System.out.println(manager.getHistory());
+        System.out.println(manager);
 
 
         // Epic epic = new Epic("Sit", "sit");

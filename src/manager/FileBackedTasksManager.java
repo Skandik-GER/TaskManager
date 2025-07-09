@@ -13,6 +13,8 @@ import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
     private final Parser parser = new Parser();
+    // RED
+    // поля можно сделать final
     private String path = "resources/data.csv";
     private String hist = "resources/history.csv";
 
@@ -24,6 +26,18 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
+    // RED
+    // В файлик сохраняется одна и та же задача много раз
+    // данные дублируются
+
+    // RED
+    // Метод сохранения не должен вызываться извне этого класса
+    // Им руководит только сам объект manager
+
+    // RED
+    // Метод сохранения не сохраняет информацию о типе задачи
+    // Это повлечет за проблемы при работе с методом load
+    // Невозможно будет понять, какой тип задачи
     public void save(String filename) {
         try (FileWriter fileWriter = new FileWriter(filename, true)) {
             for (Epic epic : epicmap.values()) {
@@ -104,6 +118,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     }
 
+    // YELLOW
+    // Метод лучше сделать статическим
     public Task fromString(String value){
         String[] parts = value.split(",");
         String name = parts[1];
@@ -113,6 +129,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return  new Task(id,name,describe,status);
     }
 
+    // RED
+    // Нигде не протестировал работу метода
     public static FileBackedTasksManager loadFromFile(File file) {
         FileBackedTasksManager manager = new FileBackedTasksManager();
         try (BufferedReader fileReader = new BufferedReader(new FileReader(file))) {
@@ -147,6 +165,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 }
 
             }
+            // RED
+            // Перекидывание исключений - выстрел себе в ногу
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

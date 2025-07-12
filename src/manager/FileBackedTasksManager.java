@@ -1,61 +1,101 @@
 package manager;
 
-import model.Epic;
-import model.Parser;
-import model.Subtask;
-import model.Task;
+import model.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class FileBackedTasksManager extends InMemoryTaskManager {
     private final Parser parser = new Parser();
-    // RED
+    // RED+
     // поля можно сделать final
-    private String path = "resources/data.csv";
-    private String hist = "resources/history.csv";
+    private final String path = "resources/data.csv";
+    private final String hist = "resources/history.csv";
+
 
     public FileBackedTasksManager() {
-        try (FileWriter fileWriter = new FileWriter(path, StandardCharsets.UTF_8)) {
-            fileWriter.write("name,describe,id,status\n");
-        } catch (IOException e) {
-            System.out.println("Ошибка чтения файла");
+        if (!Files.exists(Path.of(path))) {
+            try (FileWriter fileWriter = new FileWriter(path, StandardCharsets.UTF_8)) {
+                fileWriter.write("type,name,describe,id,status\n");
+            } catch (IOException e) {
+                System.out.println("Ошибка чтения файла");
+            }
         }
     }
 
-    // RED
+    // RED+
     // В файлик сохраняется одна и та же задача много раз
     // данные дублируются
 
-    // RED
+    // RED+
     // Метод сохранения не должен вызываться извне этого класса
     // Им руководит только сам объект manager
 
-    // RED
+    // RED+?
     // Метод сохранения не сохраняет информацию о типе задачи
     // Это повлечет за проблемы при работе с методом load
     // Невозможно будет понять, какой тип задачи
-    public void save(String filename) {
-        try (FileWriter fileWriter = new FileWriter(filename, true)) {
-            for (Epic epic : epicmap.values()) {
-                fileWriter.write(parser.toParse(epic) + "\n");
-            }
+    private void clearFile(String filePath) {
+        try (FileWriter fw = new FileWriter(filePath, false)) {
+            fw.write("type,name,describe,id,status\n");
+        } catch (IOException e) {
+            throw new RuntimeException("Ошибка очистки " + filePath, e);
+        }
+    }
+
+    private void clearFileHist(String filePath) {
+        try (FileWriter fw = new FileWriter(filePath, false)) {
+        } catch (IOException e) {
+            throw new RuntimeException("Ошибка очистки " + filePath, e);
+        }
+    }
+
+    //    public void save(String filename) {
+//        try (FileWriter fileWriter = new FileWriter(filename)) {
+//            for (Epic epic : epicmap.values()) {
+//                fileWriter.write("EPIC " + parser.toParse(epic) + "\n");
+//            }
+//            for (Task task : taskmap.values()) {
+//                fileWriter.write("TASK " + parser.toParse(task) + "\n");
+//            }
+//            for (Subtask subtask : subtaskmap.values()) {
+//                fileWriter.write("SUBTASK " + parser.toParse(subtask) + "\n");
+//            }
+//        } catch (IOException e) {
+//            System.out.println("Ошибка чтения файла");
+//        }
+//        try (FileWriter fileWriter = new FileWriter(hist)) {
+//            fileWriter.write(historyToString());
+//        } catch (IOException e) {
+//            System.out.println("Ошибка чтения");
+//        }
+//    }
+    public void save(String fileName) {
+        try (FileWriter fileWriter = new FileWriter(fileName)) {
+            StringBuilder stringBuilder = new StringBuilder("type,name,description,id,status\n");
             for (Task task : taskmap.values()) {
-                fileWriter.write(parser.toParse(task) + "\n");
+                stringBuilder.append("TASK," + parser.toParse(task)).append("\n");
             }
             for (Subtask subtask : subtaskmap.values()) {
-                fileWriter.write(parser.toParse(subtask) + "\n");
+                stringBuilder.append("SUBTASK," + parser.toParse(subtask)).append("\n");
             }
+            for (Epic epic : epicmap.values()) {
+                stringBuilder.append("EPIC,").append(parser.toParse(epic)).append("\n");
+            }
+            stringBuilder.append("\n");
+            fileWriter.write(stringBuilder.toString().trim());
+
         } catch (IOException e) {
-            System.out.println("Ошибка чтения файла");
+            System.out.println("Ошибка во время чтения файла.");
         }
-        try (FileWriter fileWriter = new FileWriter(hist, true)) {
+        try (FileWriter fileWriter = new FileWriter(hist)) {
             fileWriter.write(historyToString());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Ошибка чтения");
         }
     }
 
@@ -95,19 +135,19 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         save(path);
     }
 
-    public String historyToString() {
+    private String historyToString() {
         final StringBuilder sb = new StringBuilder();
         for (Task task : historyManager.getHistory()) {
             Long id = task.getId();
             sb.append(id).append(",");
         }
-        if (sb.length() > 0) {
+        if (!sb.isEmpty()) {
             sb.deleteCharAt(sb.length() - 1);
         }
         return sb.toString();
     }
 
-    public static List<Long> historyFromString(String value) {
+    private static List<Long> historyFromString(String value) {
         final List<Long> history = new ArrayList<>();
         String[] values = value.split(",");
         for (String number : values) {
@@ -118,59 +158,66 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     }
 
-    // YELLOW
+    // YELLOW+
     // Метод лучше сделать статическим
-    public Task fromString(String value){
+    private static Task fromString(String value) {
         String[] parts = value.split(",");
         String name = parts[1];
         String describe = parts[2];
-        long id = Long.parseLong(parts[0]);
-        String status = parts[3];
-        return  new Task(id,name,describe,status);
+        long id = Long.parseLong(parts[3]);
+        Status status = Status.valueOf(parts[4]);
+        return new Task(id, name, describe, status);
+    }
+
+    private static Epic fromStringEpic(String value) {
+        String[] parts = value.split(",");
+        String name = parts[1];
+        String describe = parts[2];
+        return new Epic(name, describe);
+    }
+
+    private static Subtask fromStringSubtask(String value) {
+        String[] parts = value.split(",");
+        String name = parts[1];
+        String describe = parts[2];
+        long id = Long.parseLong(parts[3]);
+        Status status = Status.valueOf(parts[4]);
+        return new Subtask(name, describe, id, status);
     }
 
     // RED
     // Нигде не протестировал работу метода
-    public static FileBackedTasksManager loadFromFile(File file) {
+    public static FileBackedTasksManager loadFromFile(String file) {
         FileBackedTasksManager manager = new FileBackedTasksManager();
         try (BufferedReader fileReader = new BufferedReader(new FileReader(file))) {
+            fileReader.readLine();
             String line;
-            boolean fl = true;
-            List<Long> history = new ArrayList<>();
-            while((line = fileReader.readLine()) != null){
-                if (line.isEmpty()) {
-                    fl = false;
-                    continue;
+            while ((line = fileReader.readLine()) != null) {
+                line = line.trim();
+                String[] data = line.split(",");
+                TaskType taskType = TaskType.valueOf(data[0].trim().toUpperCase());
+                switch (taskType) {
+                    case TASK:
+                        Task task = fromString(line);
+                        manager.createTask(task);
+                        break;
+                    case EPIC:
+                        Epic epic = fromStringEpic(line);
+                        manager.createEpic(epic);
+                        break;
+                    case SUBTASK:
+                        Subtask subtask = fromStringSubtask(line);
+                        manager.createSubtask(subtask);
+                        break;
                 }
-                if(fl){
-                    Task task = manager.fromString(line);
-                    manager.parser.toParse(task);
-                }else{
-                    history = historyFromString(line);
-                }
-
-                for(Long id : history){
-                    Task task = manager.getTaskById(id);
-                    if(task != null){
-                        manager.historyManager.add(task);
-                    }
-                    Subtask subtask = manager.getSubtaskById(id);
-                    if(subtask != null){
-                        manager.historyManager.add(subtask);
-                    }
-                    Epic epic = manager.getEpicById(id);
-                    if(epic != null){
-                        manager.historyManager.add(epic);
-                    }
-                }
-
             }
-            // RED
-            // Перекидывание исключений - выстрел себе в ногу
+
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            System.out.println("Файл не найден");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Ошибка чтения файла");
+        } catch (IllegalArgumentException e) {
+            System.err.println("ОШИБКА: неизвестный тип задачи");
         }
         return manager;
     }

@@ -139,7 +139,11 @@ public class InMemoryTaskManager implements Manager{
     }
     @Override
     public Task getTaskById(long id) {
-        historyManager.add(taskmap.get(id));
+        if (taskmap.get(id) != null) {
+            historyManager.add(taskmap.get(id));
+        } else {
+            System.err.println("Задача с ID " + id + " не найдена");
+        }
         return taskmap.get(id);
     }
     @Override

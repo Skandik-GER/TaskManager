@@ -1,6 +1,7 @@
 package model;
 
 public class Task {
+    String type;
     protected String name;
     protected String describe;
     protected long id;
@@ -17,8 +18,8 @@ public class Task {
         this.id = id;
     }
 
-    public Task(long id, String name, String describe, String status) {
-    }
+
+
 
     public String getName() {
         return name;

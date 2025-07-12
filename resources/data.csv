@@ -1,6 +1,4 @@
-name,describe,id,status
-Backflip2,Jump with flip,1,NEW
-Backflip2,Jump with flip,1,DONE
-Sit,sit,2,DONE
-Backflip2,Jump with flip,1,DONE
-jMP,jhP,2,DONE
+type,name,description,id,status
+TASK,Karowka,Fall asleep ,1,NEW
+TASK,sSleep,Fall asleep ,2,NEW
+EPIC,Backflip,Jump with flip,3,NEW

@@ -39,14 +39,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     // Метод сохранения не сохраняет информацию о типе задачи
     // Это повлечет за проблемы при работе с методом load
     // Невозможно будет понять, какой тип задачи
-    private void clearFile(String filePath) {
-        try (FileWriter fw = new FileWriter(filePath, false)) {
-            fw.write("type,name,describe,id,status\n");
-        } catch (IOException e) {
-            throw new RuntimeException("Ошибка очистки " + filePath, e);
-        }
-    }
-
     private void clearFileHist(String filePath) {
         try (FileWriter fw = new FileWriter(filePath, false)) {
         } catch (IOException e) {
@@ -54,45 +46,27 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-    //    public void save(String filename) {
-//        try (FileWriter fileWriter = new FileWriter(filename)) {
-//            for (Epic epic : epicmap.values()) {
-//                fileWriter.write("EPIC " + parser.toParse(epic) + "\n");
-//            }
-//            for (Task task : taskmap.values()) {
-//                fileWriter.write("TASK " + parser.toParse(task) + "\n");
-//            }
-//            for (Subtask subtask : subtaskmap.values()) {
-//                fileWriter.write("SUBTASK " + parser.toParse(subtask) + "\n");
-//            }
-//        } catch (IOException e) {
-//            System.out.println("Ошибка чтения файла");
-//        }
-//        try (FileWriter fileWriter = new FileWriter(hist)) {
-//            fileWriter.write(historyToString());
-//        } catch (IOException e) {
-//            System.out.println("Ошибка чтения");
-//        }
-//    }
     public void save(String fileName) {
         try (FileWriter fileWriter = new FileWriter(fileName)) {
             StringBuilder stringBuilder = new StringBuilder("type,name,description,id,status\n");
-            for (Task task : taskmap.values()) {
-                stringBuilder.append("TASK," + parser.toParse(task)).append("\n");
-            }
-            for (Subtask subtask : subtaskmap.values()) {
-                stringBuilder.append("SUBTASK," + parser.toParse(subtask)).append("\n");
-            }
             for (Epic epic : epicmap.values()) {
                 stringBuilder.append("EPIC,").append(parser.toParse(epic)).append("\n");
             }
+            for (Task task : taskmap.values()) {
+                stringBuilder.append("TASK,").append(parser.toParse(task)).append("\n");
+            }
+            for (Subtask subtask : subtaskmap.values()) {
+                stringBuilder.append("SUBTASK,").append(parser.toParse(subtask)).append("\n");
+            }
+
             stringBuilder.append("\n");
             fileWriter.write(stringBuilder.toString().trim());
 
         } catch (IOException e) {
             System.out.println("Ошибка во время чтения файла.");
         }
-        try (FileWriter fileWriter = new FileWriter(hist)) {
+
+        try (FileWriter fileWriter = new FileWriter(hist,true)) {
             fileWriter.write(historyToString());
         } catch (IOException e) {
             System.out.println("Ошибка чтения");
@@ -134,6 +108,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         super.updateSubtask(subtask);
         save(path);
     }
+
 
     private String historyToString() {
         final StringBuilder sb = new StringBuilder();
@@ -211,7 +186,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                         break;
                 }
             }
-
         } catch (FileNotFoundException e) {
             System.out.println("Файл не найден");
         } catch (IOException e) {
@@ -219,6 +193,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         } catch (IllegalArgumentException e) {
             System.err.println("ОШИБКА: неизвестный тип задачи");
         }
+
+
         return manager;
     }
 }

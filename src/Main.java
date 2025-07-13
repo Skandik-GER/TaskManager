@@ -25,6 +25,9 @@ public class Main {
 //
         Subtask updSubtask = new Subtask(2, "jMP", "jhP", 1, Status.DONE);
         manager.createEpic(epic1);
+        manager.createSubtask(subtask1);
+        manager.getSubtaskById(2);
+        manager.getEpicById(1);
         manager.createTask(task1);
         manager.createTask(task2);
         System.out.println(manager);

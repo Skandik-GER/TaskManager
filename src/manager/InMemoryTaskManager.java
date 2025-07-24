@@ -18,21 +18,24 @@ public class InMemoryTaskManager implements Manager{
 
     @Override
     public void createTask(Task task) {
-        task.setId(nextId);
+        if(task.getId() == 0 ){
+            task.setId(nextId);
+        }
         taskmap.put(nextId, task);
         nextId++;
     }
     @Override
     public void createSubtask(Subtask subtask) {
+        if(subtask.getId() == 0 ){
+            subtask.setId(nextId);
+        }
 
         long epicID = subtask.getEpicId();
         if (!epicmap.containsKey(epicID)) {
-            System.out.println("Тысяча чертей!Не найден ID ");
+            System.out.println("Тысяча чертей!Не найден epicID ");
             return;
         }
         Epic epic = epicmap.get(epicID);
-
-        subtask.setId(nextId);
         subtaskmap.put(nextId, subtask);
         epic.addSubTask(subtask);
         nextId++;
@@ -40,7 +43,9 @@ public class InMemoryTaskManager implements Manager{
     }
     @Override
     public void createEpic(Epic epic) {
-        epic.setId(nextId);
+        if(epic.getId() == 0 ){
+            epic.setId(nextId);
+        }
         nextId++;
         epicmap.put(epic.getId(), epic);
     }

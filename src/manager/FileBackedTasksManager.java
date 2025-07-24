@@ -13,18 +13,17 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private final Parser parser = new Parser();
     // RED+
     // поля можно сделать final
-    private final String path = "resources/data.csv";
-    private final String hist = "resources/history.csv";
+    private final String to;
+    private final String from;
+    private final String hist;
+    private final String toHist;
 
 
-    public FileBackedTasksManager() {
-        if (!Files.exists(Path.of(path))) {
-            try (FileWriter fileWriter = new FileWriter(path, StandardCharsets.UTF_8)) {
-                fileWriter.write("type,name,describe,id,status\n");
-            } catch (IOException e) {
-                System.out.println("Ошибка чтения файла");
-            }
-        }
+    public FileBackedTasksManager(String from, String to, String fromHist, String toHist) {
+        this.from = from;
+        this.to = to;
+        this.hist = fromHist;
+        this.toHist = toHist;
     }
 
     // RED+
@@ -59,14 +58,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 stringBuilder.append("SUBTASK,").append(parser.toParse(subtask)).append("\n");
             }
 
-            stringBuilder.append("\n");
             fileWriter.write(stringBuilder.toString().trim());
 
         } catch (IOException e) {
             System.out.println("Ошибка во время чтения файла.");
         }
 
-        try (FileWriter fileWriter = new FileWriter(hist,true)) {
+        try (FileWriter fileWriter = new FileWriter(toHist)) {
             fileWriter.write(historyToString());
         } catch (IOException e) {
             System.out.println("Ошибка чтения");
@@ -76,37 +74,37 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     @Override
     public void createSubtask(Subtask subtask) {
         super.createSubtask(subtask);
-        save(path);
+        save(to);
     }
 
     @Override
     public void createTask(Task task) {
         super.createTask(task);
-        save(path);
+        save(to);
     }
 
     @Override
     public void createEpic(Epic epic) {
         super.createEpic(epic);
-        save(path);
+        save(to);
     }
 
     @Override
     public void updateTask(Task task) {
         super.updateTask(task);
-        save(path);
+        save(to);
     }
 
     @Override
     public void updateEpic(Epic newEpic) {
         super.updateEpic(newEpic);
-        save(path);
+        save(to);
     }
 
     @Override
     public void updateSubtask(Subtask subtask) {
         super.updateSubtask(subtask);
-        save(path);
+        save(to);
     }
 
 
@@ -157,14 +155,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         String describe = parts[2];
         long id = Long.parseLong(parts[3]);
         Status status = Status.valueOf(parts[4]);
-        return new Subtask(name, describe, id, status);
+        long epicid = Long.parseLong(parts[5]);
+        return new Subtask(id, name, describe, epicid, status);
     }
 
     // RED
     // Нигде не протестировал работу метода
-    public static FileBackedTasksManager loadFromFile(String file) {
-        FileBackedTasksManager manager = new FileBackedTasksManager();
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(file))) {
+    public static FileBackedTasksManager loadFromFile(String path, String newPath, String hist, String toHist) {
+        FileBackedTasksManager manager = new FileBackedTasksManager(path, newPath, hist, toHist);
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(path))) {
             fileReader.readLine();
             String line;
             while ((line = fileReader.readLine()) != null) {
@@ -194,6 +193,21 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             System.err.println("ОШИБКА: неизвестный тип задачи");
         }
 
+        try (BufferedReader historyReader = new BufferedReader(new FileReader(hist))) {
+            String historyLine = historyReader.readLine();
+            List<Long> histIds = historyFromString(historyLine);
+            for (long id : histIds) {
+                if (manager.taskmap.containsKey(id)) {
+                    manager.historyManager.add(manager.taskmap.get(id));
+                } else if (manager.epicmap.containsKey(id)) {
+                    manager.historyManager.add(manager.epicmap.get(id));
+                } else if (manager.subtaskmap.containsKey(id)) {
+                    manager.historyManager.add(manager.subtaskmap.get(id));
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Ошибка чтения файла истории: " + e.getMessage());
+        }
 
         return manager;
     }

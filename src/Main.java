@@ -11,27 +11,24 @@ import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
-        Manager manager = new FileBackedTasksManager();
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager();
+
+//        Manager manager = new FileBackedTasksManager("resources/manager1/data.csv","resources/manager1/newData.csv","resources/manager1/history.csv");
+//        Task task1 = new Task("Karowka", "Fall asleep ", Status.NEW);
+//        Task task2 = new Task("sSleep", "Fall asleep ", Status.NEW);
+////
+//        Epic epic1 = new Epic("Backflip", "Jump with flip");
+////
+//        Subtask subtask1 = new Subtask("Sit", "sit", 1, Status.DONE);
 //
-        String path = "resources/data.csv";
-        final String hist = "resources/history.csv";
-        Task task1 = new Task(1, "Karowka", "Fall asleep ", Status.NEW);
-        Task task2 = new Task(2, "sSleep", "Fall asleep ", Status.NEW);
-//
-        Epic epic1 = new Epic("Backflip", "Jump with flip");
-//
-        Subtask subtask1 = new Subtask("Sit", "sit", 1, Status.DONE);
-//
-        Subtask updSubtask = new Subtask(2, "jMP", "jhP", 1, Status.DONE);
-        manager.createEpic(epic1);
-        manager.createSubtask(subtask1);
-        manager.getSubtaskById(2);
-        manager.getEpicById(1);
-        manager.createTask(task1);
-        manager.createTask(task2);
-        System.out.println(manager);
-        FileBackedTasksManager fileBackedTasksManager1 = FileBackedTasksManager.loadFromFile(path);
+//        manager.createEpic(epic1);
+//        manager.createSubtask(subtask1);
+//        manager.getSubtaskById(2);
+//        manager.getEpicById(1);
+//        manager.createTask(task1);
+//        manager.createTask(task2);
+//        System.out.println(manager);
+//        System.out.println(manager.getHistory());
+        FileBackedTasksManager fileBackedTasksManager1 = FileBackedTasksManager.loadFromFile("resources/manager2/data.csv","resources/manager2/newData.csv","resources/manager2/history.csv","resources/manager2/newHistory.csv");
         System.out.println(fileBackedTasksManager1.getTasks());
 
 

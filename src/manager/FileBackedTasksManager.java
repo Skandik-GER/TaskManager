@@ -3,41 +3,20 @@ package manager;
 import model.*;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
     private final Parser parser = new Parser();
-    // RED+
-    // поля можно сделать final
     private final String to;
-    private final String from;
-    private final String hist;
     private final String toHist;
 
 
-    public FileBackedTasksManager(String from, String to, String fromHist, String toHist) {
-        this.from = from;
+    public FileBackedTasksManager(String to, String toHist) {
         this.to = to;
-        this.hist = fromHist;
         this.toHist = toHist;
     }
 
-    // RED+
-    // В файлик сохраняется одна и та же задача много раз
-    // данные дублируются
-
-    // RED+
-    // Метод сохранения не должен вызываться извне этого класса
-    // Им руководит только сам объект manager
-
-    // RED+?
-    // Метод сохранения не сохраняет информацию о типе задачи
-    // Это повлечет за проблемы при работе с методом load
-    // Невозможно будет понять, какой тип задачи
     private void clearFileHist(String filePath) {
         try (FileWriter fw = new FileWriter(filePath, false)) {
         } catch (IOException e) {
@@ -45,8 +24,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-    public void save(String fileName) {
-        try (FileWriter fileWriter = new FileWriter(fileName)) {
+    public void save() {
+        try (FileWriter fileWriter = new FileWriter(to)) {
             StringBuilder stringBuilder = new StringBuilder("type,name,description,id,status\n");
             for (Epic epic : epicmap.values()) {
                 stringBuilder.append("EPIC,").append(parser.toParse(epic)).append("\n");
@@ -74,39 +53,105 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     @Override
     public void createSubtask(Subtask subtask) {
         super.createSubtask(subtask);
-        save(to);
+        save();
     }
 
     @Override
     public void createTask(Task task) {
         super.createTask(task);
-        save(to);
+        save();
     }
 
     @Override
     public void createEpic(Epic epic) {
         super.createEpic(epic);
-        save(to);
+        save();
     }
 
     @Override
     public void updateTask(Task task) {
         super.updateTask(task);
-        save(to);
+        save();
     }
 
     @Override
     public void updateEpic(Epic newEpic) {
         super.updateEpic(newEpic);
-        save(to);
+        save();
     }
 
     @Override
     public void updateSubtask(Subtask subtask) {
         super.updateSubtask(subtask);
-        save(to);
+        save();
     }
 
+    // RED
+    // Добавить сохранение при изменении состояния
+    @Override
+    public List<Task> getTasks() {
+        return super.getTasks();
+    }
+
+    @Override
+    public List<Epic> getEpics() {
+        return super.getEpics();
+    }
+
+    @Override
+    public List<Subtask> getSubtasks() {
+        return super.getSubtasks();
+    }
+
+    @Override
+    public void removeTaskId(long id) {
+        super.removeTaskId(id);
+    }
+
+    @Override
+    public void removeAllTasks() {
+        super.removeAllTasks();
+    }
+
+    @Override
+    public void removeAllEpic() {
+        super.removeAllEpic();
+    }
+
+    @Override
+    public void removeEpicId(long id) {
+        super.removeEpicId(id);
+    }
+
+    @Override
+    public void removeAllSubtask() {
+        super.removeAllSubtask();
+    }
+
+    @Override
+    public void removeSubtaskId(long id) {
+        super.removeSubtaskId(id);
+    }
+
+    @Override
+    public List<Subtask> getSubtasksByEpic(long epicId) {
+        return super.getSubtasksByEpic(epicId);
+    }
+
+    @Override
+    public Task getTaskById(long id) {
+        return super.getTaskById(id);
+    }
+
+    @Override
+    public Subtask getSubtaskById(long id) {
+        return super.getSubtaskById(id);
+    }
+
+    @Override
+    public Epic getEpicById(long id) {
+        return super.getEpicById(id);
+    }
 
     private String historyToString() {
         final StringBuilder sb = new StringBuilder();
@@ -130,9 +175,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return history;
 
     }
-
-    // YELLOW+
-    // Метод лучше сделать статическим
+    // YELLOW
+    // Лучше поместить в отдельный класс
     private static Task fromString(String value) {
         String[] parts = value.split(",");
         String name = parts[1];
@@ -159,10 +203,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return new Subtask(id, name, describe, epicid, status);
     }
 
-    // RED
-    // Нигде не протестировал работу метода
     public static FileBackedTasksManager loadFromFile(String path, String newPath, String hist, String toHist) {
-        FileBackedTasksManager manager = new FileBackedTasksManager(path, newPath, hist, toHist);
+        FileBackedTasksManager manager = new FileBackedTasksManager(newPath, toHist);
         try (BufferedReader fileReader = new BufferedReader(new FileReader(path))) {
             fileReader.readLine();
             String line;
@@ -208,7 +250,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         } catch (IOException e) {
             System.out.println("Ошибка чтения файла истории: " + e.getMessage());
         }
-
+        manager.save();
         return manager;
     }
 }

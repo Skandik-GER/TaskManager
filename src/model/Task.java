@@ -1,7 +1,6 @@
 package model;
 
 public class Task {
-    String type;
     protected String name;
     protected String describe;
     protected long id;

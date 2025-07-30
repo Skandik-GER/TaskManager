@@ -28,7 +28,11 @@ public class Main {
 //        manager.createTask(task2);
 //        System.out.println(manager);
 //        System.out.println(manager.getHistory());
-        FileBackedTasksManager fileBackedTasksManager1 = FileBackedTasksManager.loadFromFile("resources/manager2/data.csv","resources/manager2/newData.csv","resources/manager2/history.csv","resources/manager2/newHistory.csv");
+        FileBackedTasksManager fileBackedTasksManager1 = FileBackedTasksManager.loadFromFile(
+                "resources/manager2/data.csv",
+                "resources/manager2/newData.csv",
+                "resources/manager2/history.csv",
+                "resources/manager2/newHistory.csv");
         System.out.println(fileBackedTasksManager1.getTasks());
 
 

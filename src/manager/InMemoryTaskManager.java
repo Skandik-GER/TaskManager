@@ -21,7 +21,7 @@ public class InMemoryTaskManager implements Manager{
         if(task.getId() == 0 ){
             task.setId(nextId);
         }
-        taskmap.put(nextId, task);
+        taskmap.put(task.getId(), task);
         nextId++;
     }
     @Override
@@ -36,7 +36,7 @@ public class InMemoryTaskManager implements Manager{
             return;
         }
         Epic epic = epicmap.get(epicID);
-        subtaskmap.put(nextId, subtask);
+        subtaskmap.put(subtask.getId(), subtask);
         epic.addSubTask(subtask);
         nextId++;
 
